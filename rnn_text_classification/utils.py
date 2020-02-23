@@ -44,6 +44,7 @@ def load_dataset(file):
             dataset.append([[vocab[word_num] for word_num in content], int(index)])
 
     x = np.zeros(shape = (len(dataset), 40), dtype = int)
+    xx = np.zeros(shape=(len(dataset), 20), dtype=int)
     y = np.zeros(shape = (len(dataset), 1), dtype = int)
     for i in range(len(dataset)):
         if len(dataset[i][0]) > 40:
@@ -51,7 +52,8 @@ def load_dataset(file):
         else:
             x[i, :len(dataset[i][0])] = dataset[i][0]
         y[i] = dataset[i][1]
-    return vocab, x, y
+        xx[i, :] = x[i, :20]
+    return vocab, xx, y
 
 
 def return_loader():
@@ -61,17 +63,17 @@ def return_loader():
     x = torch.from_numpy(x)
     y = torch.from_numpy(y)
     dataset = torch.utils.data.TensorDataset(x, y)
-    loader = torch.utils.data.DataLoader(dataset = dataset, batch_size = 5, shuffle = True)
+    loader = torch.utils.data.DataLoader(dataset = dataset, batch_size = 20, shuffle = True)
 
     return loader
 
 
-# if __name__ == "__main__":
-#     path = "data/train.txt"
-#
-#     loader = return_loader()
-#
-#     for step, (x, y) in enumerate(loader):
-#         print("X: ", x, "\nY: ", y)
-#
+if __name__ == "__main__":
+    path = "data/train.txt"
+
+    loader = return_loader()
+
+    for step, (x, y) in enumerate(loader):
+        print("X: ", x, "\nY: ", y)
+
 

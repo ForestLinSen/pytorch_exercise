@@ -20,7 +20,7 @@ class Model(nn.Module):
         else:
             self.embedding = nn.Embedding(num_embeddings = num_words, embedding_dim = embedding_dim)
 
-        self.lstm = nn.LSTM(input_size = embedding_dim, hidden_size = hidden_size, num_layers = 2, bidirectional = True)
+        self.lstm = nn.LSTM(input_size = embedding_dim, hidden_size = hidden_size, num_layers = 2, bidirectional = True, batch_first=True, dropout = 0.5)
         self.fc = nn.Linear(in_features = hidden_size*2, out_features = num_classes)
 
     def forward(self, x):
